@@ -6,79 +6,74 @@
     <title>Football GO! | Attax Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --pitch-green: #2ecc71; --grass-dark: #27ae60; --gold: #f1c40f; --night: #1a1a1a; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Oswald', sans-serif; }
-        body { background-color: #f4f4f4; color: #333; }
+        :root { --pitch: #2ecc71; --grass: #27ae60; --gold: #f1c40f; --night: #1a1a1a; --text: #333; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background-color: #f0f2f5; color: var(--text); }
 
-        /* Header & Navigation */
-        header { background: var(--night); padding: 15px 5%; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1300px; margin: 0 auto; }
-        .logo { display: flex; align-items: center; gap: 12px; font-weight: 900; color: var(--pitch-green); font-size: 1.8rem; text-decoration: none; text-transform: uppercase; }
-        .logo i { color: var(--gold); }
-
-        /* Search Bubble */
-        .search-bubble { background: #fff; border-radius: 50px; display: flex; align-items: center; padding: 4px 18px; width: 100%; max-width: 450px; border: 3px solid var(--pitch-green); }
-        .search-bubble input { border: none; background: transparent; padding: 10px; width: 100%; outline: none; font-size: 1rem; font-weight: bold; }
-        .search-bubble button { border: none; background: transparent; cursor: pointer; color: var(--grass-dark); font-size: 1.2rem; }
-
-        /* Main Content */
-        main { max-width: 1300px; margin: 40px auto; padding: 0 20px; }
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-
-        /* Football Card Bubble */
-        .card { background: #fff; border-radius: 30px; overflow: hidden; cursor: pointer; transition: 0.4s; box-shadow: 0 8px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; border: 2px solid #ddd; }
-        .card:hover { transform: translateY(-12px) rotate(1deg); border-color: var(--gold); box-shadow: 0 20px 40px rgba(46, 204, 113, 0.3); }
-        .card-img { width: 100%; height: 250px; background: linear-gradient(to bottom, #eee, #fff); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .card-content { padding: 25px; background: #fff; text-align: center; }
-        .player-tag { font-size: 0.8rem; font-weight: bold; color: #fff; background: var(--grass-dark); padding: 4px 12px; border-radius: 10px; display: inline-block; margin-bottom: 10px; }
-        .card-content h3 { font-size: 1.5rem; text-transform: uppercase; margin-bottom: 5px; color: var(--night); }
-
-        /* Modal / Stats View */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); }
-        .modal-box { background: #fff; width: 100%; max-width: 800px; border-radius: 40px; display: flex; overflow: hidden; position: relative; animation: kickIn 0.4s ease; border: 5px solid var(--gold); }
-        @keyframes kickIn { from { transform: scale(0.5) rotate(-10deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
-        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: var(--night); background: #fff; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .modal-left { flex: 1; background: #222; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .modal-left img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
-        .modal-right { flex: 1.2; padding: 40px; background: #fff; }
+        /* Navigation */
+        header { background: var(--night); padding: 12px 5%; box-shadow: 0 4px 12px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; gap: 15px; }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--pitch); font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Stats Styling */
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .stat-card { background: #f8f9fa; padding: 15px; border-radius: 15px; text-align: center; border: 2px solid #eee; }
-        .stat-val { font-size: 1.8rem; font-weight: 900; color: var(--grass-dark); display: block; }
-        .stat-label { font-size: 0.8rem; text-transform: uppercase; color: #888; font-weight: bold; }
+        /* Search Bubble */
+        .search-bubble { background: #fff; border-radius: 50px; display: flex; align-items: center; padding: 4px 15px; width: 100%; max-width: 400px; border: 2px solid var(--pitch); }
+        .search-bubble input { border: none; background: transparent; padding: 8px; width: 100%; outline: none; font-size: 1rem; }
+        .search-bubble button { border: none; background: transparent; cursor: pointer; color: var(--grass); font-size: 1.1rem; }
 
-        footer { text-align: center; padding: 40px; background: var(--night); color: #fff; margin-top: 50px; }
-        @media (max-width: 768px) { .modal-box { flex-direction: column; } .modal-left { height: 300px; } }
+        /* Content Grid */
+        main { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+
+        /* Bubble Card */
+        .card { background: #fff; border-radius: 30px; overflow: hidden; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #ddd; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: var(--gold); }
+        .card-img { width: 100%; height: 200px; background: #eee; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .card-body { padding: 20px; text-align: center; }
+        .tag { font-size: 0.7rem; font-weight: bold; color: #fff; background: var(--grass); padding: 3px 10px; border-radius: 8px; margin-bottom: 8px; display: inline-block; }
+        .card-body h3 { font-size: 1.3rem; margin-bottom: 5px; }
+
+        /* Modal Popup */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
+        .modal-box { background: #fff; width: 100%; max-width: 750px; border-radius: 35px; display: flex; overflow: hidden; position: relative; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .close { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #000; background: #fff; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .modal-left { flex: 1; background: #222; }
+        .modal-left img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-right { flex: 1.2; padding: 35px; }
+
+        /* Stats View */
+        .stat-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .stat-item { background: #f8f9fa; padding: 12px; border-radius: 15px; text-align: center; border: 1px solid #eee; }
+        .stat-num { display: block; font-size: 1.6rem; font-weight: 800; color: var(--grass); }
+        .stat-lbl { font-size: 0.75rem; text-transform: uppercase; color: #999; font-weight: bold; }
+
+        footer { text-align: center; padding: 30px; background: var(--night); color: #fff; margin-top: 50px; }
+        @media (max-width: 650px) { .modal-box { flex-direction: column; } .modal-left { height: 250px; } }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header>
     <div class="nav-container">
-        <div class="logo">
-            <i class="fas fa-futbol"></i>
-            <span>Football GO!</span>
-        </div>
+        <div class="logo"><i class="fas fa-futbol"></i> FOOTBALL GO!</div>
         <div class="search-bubble">
-            <input type="text" id="playerSearch" placeholder="Search Player (e.g. Messi, Ronaldo)">
-            <button onclick="searchPlayer()"><i class="fas fa-search"></i></button>
+            <input type="text" id="sInput" placeholder="Search Player Attax Cards...">
+            <button onclick="doSearch()"><i class="fas fa-search"></i></button>
         </div>
     </div>
 </header>
 
 <main>
-    <h2 style="margin-bottom:30px; text-transform: uppercase; letter-spacing: 2px;">Trending News & Attax Cards</h2>
-    <div class="news-grid" id="mainGrid"></div>
+    <h2 style="margin-bottom:25px; text-transform: uppercase;">Top Players & News</h2>
+    <div class="grid" id="mainGrid"></div>
 </main>
 
 <div class="modal" id="modal">
     <div class="modal-box">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <div class="modal-left"><img id="modalImg" src=""></div>
-        <div class="modal-right" id="modalContent"></div>
+        <span class="close" onclick="closeM()">&times;</span>
+        <div class="modal-left"><img id="mImg" src=""></div>
+        <div class="modal-right" id="mText"></div>
     </div>
 </div>
 
@@ -87,70 +82,71 @@
 </footer>
 
 <script>
-    // REAL FOOTBALL DATA (Attax Style)
-    const cards = [
-        { id: 1, type: 'news', tag: 'TRANSFER', name: 'Haaland to Madrid?', img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800', desc: 'Rumors swirl as the Norwegian striker is spotted in Spain.', long: 'The football world is in shock as Erling Haaland reportedly met with Madrid officials. A record-breaking 250M deal is being discussed for the 2026 summer window.' },
-        { id: 2, type: 'player', tag: 'LEGEND', name: 'Lionel Messi', img: 'https://images.unsplash.com/photo-1518091043644-c1d445bcc97a?w=800', atk: 99, def: 45, spd: 88, desc: 'The GOAT Attax card with maximum playmaking stats.' },
-        { id: 3, type: 'player', tag: 'STRIKER', name: 'Cristiano Ronaldo', img: 'https://images.unsplash.com/photo-1552318975-275e057f3a0d?w=800', atk: 98, def: 40, spd: 92, desc: 'A power-packed finisher for any starting eleven.' },
-        { id: 4, type: 'news', tag: 'WORLD CUP', name: '2026 Stadiums Ready', img: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800', desc: 'Final inspections complete for the upcoming global tournament.', long: 'All venues for the 2026 World Cup have passed safety inspections. Technology upgrades include 360-degree holographic replays for fans.' },
-        { id: 5, type: 'player', tag: 'MIDFIELD', name: 'Kevin De Bruyne', img: 'https://images.unsplash.com/photo-1510567198184-c7484601c4b8?w=800', atk: 94, def: 65, spd: 76, desc: 'The ultimate assist king with pinpoint passing accuracy.' },
-        { id: 6, type: 'player', tag: 'DEFENSE', name: 'Virgil Van Dijk', img: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800', atk: 55, def: 97, spd: 78, desc: 'An immovable wall for your defensive line.' }
+    // Robust image sources using Unsplash IDs (Guaranteed to load)
+    const data = [
+        { id: 1, type: 'news', tag: 'NEWS', name: 'Transfer Record Broken', img: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800', desc: 'A new 300M deal has been signed today.', long: 'History was made as the world record transfer fee was shattered. The player is set to join the league champions this summer on a five-year contract.' },
+        { id: 2, type: 'player', tag: 'LEGEND', name: 'L. Messi', img: 'https://images.unsplash.com/photo-1518091043644-c1d445bcc97a?w=800', atk: 99, def: 48, spd: 89, desc: 'Maximum control and playmaking ability.' },
+        { id: 3, type: 'player', tag: 'STRIKER', name: 'C. Ronaldo', img: 'https://images.unsplash.com/photo-1552318975-275e057f3a0d?w=800', atk: 98, def: 42, spd: 91, desc: 'Pure power and unmatched finishing stats.' },
+        { id: 4, type: 'player', tag: 'MIDFIELD', name: 'K. De Bruyne', img: 'https://images.unsplash.com/photo-1510567198184-c7484601c4b8?w=800', atk: 94, def: 68, spd: 79, desc: 'The most dangerous passer in the game.' },
+        { id: 5, type: 'news', tag: 'STADIUM', name: 'Grand Final Venue', img: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800', desc: 'The venue for the 2026 Final is confirmed.', long: 'The Football GO! 2026 Final will be held at the National Arena. Tickets are expected to sell out in under 10 minutes.' },
+        { id: 6, type: 'player', tag: 'DEFENSE', name: 'V. Van Dijk', img: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800', atk: 52, def: 98, spd: 80, desc: 'The highest defensive rating in the Attax series.' },
+        { id: 7, type: 'news', tag: 'LEAGUE', name: 'New Season Begins', img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800', desc: 'The new league season kicks off this weekend.', long: 'New kits, new players, and a brand new format. The 2026 season promises to be the most competitive in the history of the sport.' },
+        { id: 8, type: 'player', tag: 'GK', name: 'M. Neuer', img: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=800', atk: 20, def: 96, spd: 65, desc: 'The ultimate sweeper keeper for your squad.' }
     ];
 
-    function renderCards(items) {
-        const grid = document.getElementById('mainGrid');
-        grid.innerHTML = items.map(item => `
-            <div class="card" onclick="openModal(${item.id})">
-                <div class="card-img"><img src="${item.img}"></div>
-                <div class="card-content">
-                    <span class="player-tag">${item.tag}</span>
-                    <h3>${item.name}</h3>
-                    <p>${item.desc}</p>
+    function draw(items) {
+        document.getElementById('mainGrid').innerHTML = items.map(i => `
+            <div class="card" onclick="openM(${i.id})">
+                <div class="card-img"><img src="${i.img}" onerror="this.src='https://images.unsplash.com/photo-1556056504-517173f4aa07?w=800'"></div>
+                <div class="card-body">
+                    <span class="tag">${i.tag}</span>
+                    <h3>${i.name}</h3>
+                    <p>${i.desc}</p>
                 </div>
             </div>
         `).join('');
     }
 
-    function searchPlayer() {
-        const q = document.getElementById('playerSearch').value.toLowerCase().trim();
-        const filtered = cards.filter(c => c.name.toLowerCase().includes(q));
-        renderCards(filtered.length ? filtered : cards);
+    function doSearch() {
+        const q = document.getElementById('sInput').value.toLowerCase().trim();
+        const filtered = data.filter(item => item.name.toLowerCase().includes(q));
+        draw(filtered.length ? filtered : data);
     }
 
-    function openModal(id) {
-        const item = cards.find(c => c.id === id);
+    function openM(id) {
+        const item = data.find(i => i.id === id);
         const modal = document.getElementById('modal');
-        const content = document.getElementById('modalContent');
-        const img = document.getElementById('modalImg');
+        const mImg = document.getElementById('mImg');
+        const mText = document.getElementById('mText');
 
-        img.src = item.img;
-        
+        mImg.src = item.img;
+
         if(item.type === 'news') {
-            content.innerHTML = `
-                <span class="player-tag" style="background:var(--night)">${item.tag}</span>
-                <h2 style="font-size:2.5rem; margin:10px 0;">${item.name}</h2>
-                <p style="line-height:1.6; color:#555; font-size:1.1rem;">${item.long}</p>
+            mText.innerHTML = `
+                <span class="tag" style="background:#000">${item.tag}</span>
+                <h2 style="font-size:2rem; margin:10px 0;">${item.name}</h2>
+                <p style="line-height:1.6; color:#555;">${item.long}</p>
             `;
         } else {
-            content.innerHTML = `
-                <span class="player-tag">${item.tag}</span>
+            mText.innerHTML = `
+                <span class="tag" style="background:var(--pitch)">${item.tag}</span>
                 <h2 style="font-size:2.5rem; margin:5px 0;">${item.name}</h2>
-                <div class="stat-grid">
-                    <div class="stat-card"><span class="stat-val">${item.atk}</span><span class="stat-label">Attack</span></div>
-                    <div class="stat-card"><span class="stat-val">${item.def}</span><span class="stat-label">Defense</span></div>
-                    <div class="stat-card"><span class="stat-val">${item.spd}</span><span class="stat-label">Speed</span></div>
-                    <div class="stat-card"><span class="stat-val">${item.atk + item.def}</span><span class="stat-label">Total Power</span></div>
+                <div class="stat-container">
+                    <div class="stat-item"><span class="stat-num">${item.atk}</span><span class="stat-lbl">Attack</span></div>
+                    <div class="stat-item"><span class="stat-num">${item.def}</span><span class="stat-lbl">Defense</span></div>
+                    <div class="stat-item"><span class="stat-num">${item.spd}</span><span class="stat-lbl">Speed</span></div>
+                    <div class="stat-item"><span class="stat-num">${item.atk + item.def}</span><span class="stat-lbl">Power</span></div>
                 </div>
-                <p style="margin-top:20px; color:#777;">Attax Card rarity: Legendary Gold Foil. Perfect for competitive play in the Football GO! league.</p>
             `;
         }
         modal.style.display = 'flex';
     }
 
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
-    window.onclick = (e) => { if(e.target == document.getElementById('modal')) closeModal(); }
-    
-    renderCards(cards);
+    function closeM() { document.getElementById('modal').style.display = 'none'; }
+    window.onclick = (e) => { if(e.target == document.getElementById('modal')) closeM(); }
+    document.getElementById('sInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') doSearch(); });
+
+    draw(data);
 </script>
 </body>
 </html>
