@@ -3,134 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Football GO! | Pro Hub</title>
+    <title>Football GO! | Attax Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --pitch: #00ff87; --dark: #021928; --gold: #f1c40f; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial Black', sans-serif; }
-        body { background: var(--dark); color: white; padding: 20px; }
+        :root { --pitch: #00ff87; --dark: #111; --bg: #f0f2f5; --navy: #021928; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: #333; }
+
+        /* Navigation Bar - Back to Original */
+        header { background: #fff; padding: 12px 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1300px; margin: 0 auto; }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 900; color: var(--navy); font-size: 1.6rem; text-decoration: none; }
+        .logo i { color: var(--pitch); font-size: 2rem; }
+
+        /* Search Bubble - Back to Original */
+        .search-bubble { background: #eee; border-radius: 50px; display: flex; align-items: center; padding: 4px 18px; width: 100%; max-width: 450px; border: 2px solid transparent; transition: 0.3s; }
+        .search-bubble:focus-within { border-color: var(--pitch); background: #fff; box-shadow: 0 0 15px rgba(0,255,135,0.2); }
+        .search-bubble input { border: none; background: transparent; padding: 10px; width: 100%; outline: none; font-size: 1rem; }
+        .search-bubble button { border: none; background: transparent; cursor: pointer; color: var(--navy); font-size: 1.2rem; }
+
+        /* Main Grid */
+        main { max-width: 1300px; margin: 40px auto; padding: 0 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+
+        /* Bubble Card Style */
+        .card { background: #fff; border-radius: 28px; overflow: hidden; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; border: 1px solid #eee; }
+        .card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-color: var(--pitch); }
         
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid var(--pitch); padding-bottom: 10px; }
-        .logo { color: var(--pitch); font-size: 2rem; letter-spacing: -1px; }
+        .card-img { width: 100%; height: 210px; overflow: hidden; background: radial-gradient(circle, #f0f0f0, #dcdcdc); display: flex; align-items: center; justify-content: center; }
+        .card-img img { width: 80%; height: 80%; object-fit: contain; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); }
+        
+        .card-content { padding: 22px; flex-grow: 1; }
+        .category { font-size: 0.75rem; font-weight: 800; color: #00ff87; background: #021928; padding: 3px 10px; border-radius: 5px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: inline-block; }
+        .card-content h3 { font-size: 1.25rem; line-height: 1.3; margin-bottom: 12px; color: var(--dark); }
+        .card-content p { font-size: 0.95rem; color: #666; line-height: 1.5; }
 
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
-            gap: 20px; 
-            max-width: 1200px; 
-            margin: 0 auto; 
-        }
+        /* Modal Popup */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
+        .modal-box { background: #fff; width: 100%; max-width: 850px; border-radius: 35px; display: flex; flex-direction: row; overflow: hidden; position: relative; max-height: 90vh; border: 4px solid var(--pitch); }
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; color: #000; z-index: 10; }
+        
+        .modal-left { flex: 1; background: #eee; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .modal-left img { max-width: 100%; max-height: 400px; object-fit: contain; }
+        
+        .modal-right { flex: 1.2; padding: 45px; overflow-y: auto; }
+        .stat-badge { display: inline-block; background: #021928; color: var(--pitch); padding: 8px 15px; border-radius: 12px; font-weight: bold; margin: 5px; font-size: 1.1rem; }
 
-        /* The Bubble Card */
-        .card { 
-            background: #05293e; 
-            border-radius: 25px; 
-            overflow: hidden; 
-            border: 2px solid #0a3d5c;
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
-        }
-        .card:hover { transform: scale(1.03); border-color: var(--pitch); box-shadow: 0 0 20px rgba(0,255,135,0.3); }
+        footer { text-align: center; padding: 50px; background: var(--dark); color: #fff; margin-top: 60px; }
 
-        .img-box { 
-            width: 100%; 
-            height: 280px; 
-            background: radial-gradient(circle, #1e5a7d 0%, #021928 100%);
-            display: flex;
-            align-items: flex-end; /* Aligns player feet/bottom to card bottom */
-            justify-content: center;
-            overflow: hidden;
-        }
-        .img-box img { 
-            width: 90%; 
-            height: 90%; 
-            object-fit: contain; 
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
-        }
-
-        .info { padding: 15px; text-align: center; background: rgba(0,0,0,0.3); }
-        .info h3 { font-size: 1.2rem; color: var(--pitch); text-transform: uppercase; }
-        .stats-row { display: flex; justify-content: space-around; margin-top: 10px; font-size: 0.8rem; color: var(--gold); }
-
-        /* Modal */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: #05293e; border: 3px solid var(--pitch); border-radius: 30px; max-width: 500px; width: 100%; padding: 30px; text-align: center; position: relative; }
-        .close { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; }
+        @media (max-width: 800px) { .modal-box { flex-direction: column; } .modal-left { height: 250px; } }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1 class="logo">FOOTBALL GO!</h1>
-</div>
+<header>
+    <div class="nav-container">
+        <a href="#" class="logo" onclick="window.location.reload()">
+            <i class="fas fa-futbol"></i>
+            <span>Football GO!</span>
+        </a>
+        <div class="search-bubble">
+            <input type="text" id="p-input" placeholder="Search Player Attax (e.g. Messi, Haaland)...">
+            <button onclick="pSearch()"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+</header>
 
-<div class="grid" id="cardGrid"></div>
+<main>
+    <div class="section-header">
+        <h2 id="main-title">Global Attax Cards</h2>
+        <span id="date-now" style="color:#888; font-weight:bold;"></span>
+    </div>
+    <div class="news-grid" id="news-grid"></div>
+</main>
 
-<div class="modal" id="pModal">
-    <div class="modal-content">
-        <span class="close" onclick="closeM()">&times;</span>
-        <div id="mBody"></div>
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <span class="close-btn" onclick="closeM()">&times;</span>
+        <div class="modal-left"><img id="m-img" src=""></div>
+        <div class="modal-right" id="m-text"></div>
     </div>
 </div>
 
+<footer>
+    <p>&copy; 2026 Football GO! | Copyright harshj58</p>
+</footer>
+
 <script>
-    // Using TheSportsDB IDs - These are "Cut-out" photos designed for apps.
-    // They are much more likely to load than raw news site photos.
-    const players = [
-        { name: "Lionel Messi", atk: 99, def: 44, img: "https://www.thesportsdb.com/images/media/player/render/9ovpda1521114519.png" },
-        { name: "Cristiano Ronaldo", atk: 98, def: 40, img: "https://www.thesportsdb.com/images/media/player/render/43v0it1546700812.png" },
-        { name: "Erling Haaland", atk: 97, def: 42, img: "https://www.thesportsdb.com/images/media/player/render/v672h61601035532.png" },
-        { name: "Kevin De Bruyne", atk: 94, def: 65, img: "https://www.thesportsdb.com/images/media/player/render/9m6l151523455610.png" },
-        { name: "Mohamed Salah", atk: 95, def: 45, img: "https://www.thesportsdb.com/images/media/player/render/f87fpe1522061298.png" },
-        { name: "Kylian Mbappe", atk: 96, def: 38, img: "https://www.thesportsdb.com/images/media/player/render/4vuxy11516223595.png" },
-        { name: "Virgil van Dijk", atk: 60, def: 98, img: "https://www.thesportsdb.com/images/media/player/render/640h161523452243.png" },
-        { name: "Jude Bellingham", atk: 91, def: 84, img: "https://www.thesportsdb.com/images/media/player/render/2d5v4y1671991822.png" }
+    // RELIABLE PLAYER DATABASE
+    const allPlayers = [
+        { id: 1, cat: "LEGEND", name: "Lionel Messi", img: "https://www.thesportsdb.com/images/media/player/render/9ovpda1521114519.png", atk: 99, def: 44, spd: 85, desc: "The ultimate playmaker with perfect ball control." },
+        { id: 2, cat: "STRIKER", name: "Cristiano Ronaldo", img: "https://www.thesportsdb.com/images/media/player/render/43v0it1546700812.png", atk: 98, def: 40, spd: 90, desc: "An elite goalscorer with unmatched heading power." },
+        { id: 3, cat: "ELITE", name: "Erling Haaland", img: "https://www.thesportsdb.com/images/media/player/render/v672h61601035532.png", atk: 97, def: 42, spd: 89, desc: "A physical beast who dominates the penalty area." },
+        { id: 4, cat: "MIDFIELD", name: "Kevin De Bruyne", img: "https://www.thesportsdb.com/images/media/player/render/9m6l151523455610.png", atk: 94, def: 65, spd: 76, desc: "The passing master with vision like no other." },
+        { id: 5, cat: "WINGER", name: "Mohamed Salah", img: "https://www.thesportsdb.com/images/media/player/render/f87fpe1522061298.png", atk: 96, def: 45, spd: 93, desc: "Lightning fast speed combined with clinical finishing." },
+        { id: 6, cat: "DEFENDER", name: "Virgil van Dijk", img: "https://www.thesportsdb.com/images/media/player/render/640h161523452243.png", atk: 60, def: 98, spd: 78, desc: "The immovable wall of the defensive line." },
+        { id: 7, cat: "ELITE", name: "Kylian Mbappe", img: "https://www.thesportsdb.com/images/media/player/render/4vuxy11516223595.png", atk: 96, def: 38, spd: 99, desc: "The fastest player in the world with elite dribbling." },
+        { id: 8, cat: "GOLDEN BOY", name: "Jude Bellingham", img: "https://www.thesportsdb.com/images/media/player/render/2d5v4y1671991822.png", atk: 91, def: 84, spd: 82, desc: "The future of football with box-to-box dominance." }
     ];
 
-    const grid = document.getElementById('cardGrid');
+    document.getElementById('date-now').innerText = new Date().toDateString();
 
-    players.forEach((p, idx) => {
-        grid.innerHTML += `
-            <div class="card" onclick="openM(${idx})">
-                <div class="img-box">
-                    <img src="${p.img}" alt="${p.name}" onerror="handleError(this)">
+    function renderNews(list) {
+        const grid = document.getElementById('news-grid');
+        grid.innerHTML = list.map(p => `
+            <div class="card" onclick="openM(${p.id})">
+                <div class="card-img">
+                    <img src="${p.img}" onerror="this.src='https://www.thesportsdb.com/images/media/player/render/player_silhouette.png'">
                 </div>
-                <div class="info">
+                <div class="card-content">
+                    <span class="category">${p.cat}</span>
                     <h3>${p.name}</h3>
-                    <div class="stats-row">
-                        <span>ATK: ${p.atk}</span>
-                        <span>DEF: ${p.def}</span>
-                    </div>
+                    <p>${p.desc}</p>
                 </div>
             </div>
-        `;
-    });
-
-    // If an image still fails, it shows a generic player silhouette
-    function handleError(img) {
-        img.src = "https://www.thesportsdb.com/images/media/player/render/player_silhouette.png";
+        `).join('');
     }
 
-    function openM(idx) {
-        const p = players[idx];
-        document.getElementById('mBody').innerHTML = `
-            <img src="${p.img}" style="width:200px; margin-bottom:20px;">
-            <h2 style="color:var(--pitch); font-size:2rem;">${p.name}</h2>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:20px;">
-                <div style="background:#021928; padding:15px; border-radius:15px;">
-                    <p style="font-size:2rem;">${p.atk}</p>
-                    <p style="font-size:0.7rem; color:var(--gold);">ATTACK</p>
-                </div>
-                <div style="background:#021928; padding:15px; border-radius:15px;">
-                    <p style="font-size:2rem;">${p.def}</p>
-                    <p style="font-size:0.7rem; color:var(--gold);">DEFENSE</p>
-                </div>
+    function pSearch() {
+        const q = document.getElementById('p-input').value.toLowerCase().trim();
+        const filtered = allPlayers.filter(p => p.name.toLowerCase().includes(q));
+        
+        if (filtered.length > 0) {
+            document.getElementById('main-title').innerText = "Results for: " + q;
+            renderNews(filtered);
+        } else {
+            alert("Player not found! Try searching for 'Messi' or 'Salah'.");
+        }
+    }
+
+    function openM(id) {
+        const p = allPlayers.find(item => item.id === id);
+        const modal = document.getElementById('modal');
+        const mText = document.getElementById('m-text');
+        const mImg = document.getElementById('m-img');
+
+        mImg.src = p.img;
+        mText.innerHTML = `
+            <span class="category">${p.cat}</span>
+            <h2 style="font-size:2.5rem; margin:10px 0;">${p.name}</h2>
+            <p style="margin-bottom:20px; font-size:1.1rem; color:#555;">${p.desc}</p>
+            <div class="stat-container">
+                <div class="stat-badge">ATK: ${p.atk}</div>
+                <div class="stat-badge">DEF: ${p.def}</div>
+                <div class="stat-badge">SPD: ${p.spd}</div>
+                <div class="stat-badge">TOTAL: ${p.atk + p.def}</div>
             </div>
         `;
-        document.getElementById('pModal').style.display = 'flex';
+        modal.style.display = 'flex';
     }
 
-    function closeM() { document.getElementById('pModal').style.display = 'none'; }
+    function closeM() { document.getElementById('modal').style.display = 'none'; }
+    window.onclick = (e) => { if(e.target == document.getElementById('modal')) closeM(); }
+    document.getElementById('p-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') pSearch(); });
+
+    renderNews(allPlayers);
 </script>
+
 </body>
 </html>
